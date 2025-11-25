@@ -12,14 +12,16 @@ class MessagesWebsocketConsumer(WebsocketConsumer):
     def connect(self):
         try:
             kwargs = self.scope['url_route']['kwargs']
+            
         # get pk from scope kwargs
             pk = kwargs['pk']
+            
         # get chat
             self.chat = get_object_or_404(Chat, id=pk)
+            
         # get user from scope
             self.user = None
-            # print(self.channel_name)
-            print(self.chat.uid)
+            
         # create channel for each websocket connection using unique uuid
             async_to_sync(self.channel_layer.group_add)(
             f'chat{self.chat.pk}', # group-name
@@ -41,7 +43,10 @@ class MessagesWebsocketConsumer(WebsocketConsumer):
     
     def receive(self, text_data=None, bytes_data=None):
         data = json.loads(text_data)
+        
+        # for now 
         self.user = get_object_or_404(User, id=2)
+        
         # create messags
         msg = ChatMessage.objects.create(
             chat = self.chat,
@@ -62,8 +67,7 @@ class MessagesWebsocketConsumer(WebsocketConsumer):
         return 
     
     def disconnect(self, code):
-        pass
-        # async_to_sync(self.channel_layer.group_discard(
-        #     self.chat.uid,
-        #     self.channel_name
-        # ))
+        async_to_sync(self.channel_layer.group_discard(
+            f'chats{self.chat.pk}',
+            self.channel_name
+        ))
