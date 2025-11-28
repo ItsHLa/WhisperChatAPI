@@ -11,19 +11,22 @@ Backend API for a real-time chat application built with Python, supporting publi
   - Requires uppercase, lowercase, numbers, and special characters
   - Prevents reuse of last 5 passwords
 - Secure password hashing with bcrypt
+- **Custom JWT Middleware for WebSockets** - Secure real-time communication
 
-### 👥 User Management
-- User registration and profile management
-- Online/offline status tracking
-- User search and discovery
+### Custom JWT Middleware
+- Validates JWT tokens for WebSocket connections
+- Checks token blacklist status
+- Sets user object in WebSocket scope
 
 ### 💬 Chat Features
 - **Public Groups**: Join/leave public chat rooms
 - **Private Conversations**: One-on-one private messaging
 - **Real-time Messaging**: WebSocket-based instant messaging
 - Message history and persistence
+- **Typing/Not Typing Indicators** - Real-time typing status via WebSockets
 
 ### 🛡️ Group Permission System
+
 #### Group Owner Permissions:
 - Create and delete groups
 - Modify group name and information
@@ -42,3 +45,9 @@ Backend API for a real-time chat application built with Python, supporting publi
 - View group members and information
 - Get all direct messages (DMs)
 - Get all joined groups
+
+### 🔄 Messages API with WebSocket Integration
+- **RESTful Messages API** - Complete CRUD operations for messages
+- **Real-time WebSocket Integration** - Instant message delivery
+- **Seamless API-WS Sync** - Messages created via API broadcast via WebSockets
+- **Dual Communication Channels** - Support for both HTTP and WebSocket messaging
